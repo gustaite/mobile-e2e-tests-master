@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="INTERNATIONAL_BUYERS" verbose="1" configfailurepolicy="continue" >
+    <method-selectors>
+        <method-selector>
+            <selector-class
+                    name="commonUtil.testng.mobile.MobileMethodSelector"/>
+        </method-selector>
+    </method-selectors>
+    <listeners>
+        <listener class-name="util.testng.TestNGSuiteAlterListener" />
+        <listener class-name="util.testng.InvokedMethodListener"/>
+        <listener class-name="commonUtil.testng.AnnotationTransformer"/>
+        <listener class-name="commonUtil.testng.MethodInterceptor"/>
+    </listeners>
+    <test name="International buyers" >
+        <packages>
+            <package name="test.payments.buyers.*" />
+        </packages>
+    </test>
+</suite>

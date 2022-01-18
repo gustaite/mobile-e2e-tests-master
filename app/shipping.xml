@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="SHIPPING" verbose="1" configfailurepolicy="continue" >
+    <method-selectors>
+        <method-selector>
+            <selector-class
+                    name="commonUtil.testng.mobile.MobileMethodSelector"/>
+        </method-selector>
+    </method-selectors>
+    <listeners>
+        <listener class-name="util.testng.TestNGSuiteAlterListener" />
+        <listener class-name="util.testng.InvokedMethodListener"/>
+        <listener class-name="commonUtil.testng.AnnotationTransformer"/>
+        <listener class-name="commonUtil.testng.MethodInterceptor"/>
+    </listeners>
+    <test name="Shipping tests">
+        <packages>
+            <package name="test.payments.buyers.*" />
+        </packages>
+        <classes>
+            <class name="test.basic.navigation.NavigationFromProfileSettingsTabTests">
+                <methods>
+                    <include name="testNavigationFromSettingsTabToPostageTab"/>
+                </methods>
+            </class>
+            <class name="test.payments.BuyerSideTests">
+                <methods>
+                    <include name="testPickUpPointsSearchBySearchThisAreaButtonWhenAddressWasNotAdded"/>
+                </methods>
+            </class>
+            <class name="test.payments.ShippingSettingsTests"/>
+            <class name="test.basic.upload.UploadItemTests">
+                <methods>
+                    <include name="testItemUploadWithStandardShipping"/>
+                    <include name="testItemUploadWithCustomShipping"/>
+                </methods>
+            </class>
+            <class name="test.payments.transactions.BundleLowBoundRuleTests">
+                <methods>
+                    <include name="testBundleLowBoundRule"/>
+                </methods>
+            </class>
+            <class name="test.basic.item.EditItemTests">
+                <methods>
+                    <include name="testHeavyPackageSizeSelection"/>
+                    <include name="testEditShippingOptions"/>
+                </methods>
+            </class>
+            <class name="test.basic.upload.UploadFormTests">
+                <methods>
+                    <include name="testNoShippingOption"/>
+                </methods>
+            </class>
+            <class name="test.payments.TransactionsTests">
+                <methods>
+                    <include name="testBuyingAnItemWithPickUpShippingMethodInSandbox"/>
+                    <include name="testBuyingAnItemWithHomeDeliveryShippingMethodInSandbox"/>
+                    <include name="testBuyingAnItemWithCustomShippingMethodInSandbox"/>
+                    <include name="testBuyingAnItemWithNoShippingMethodInSandbox"/>
+                </methods>
+            </class>
+            <class name="test.payments.transactions.tracked.SellerSideShippingTests">
+                <methods>
+                    <include name="testCheckShippingStatusChangesSellerSideViews"/>
+                    <include name="testCheckTrackingHistoryWithTrackedShippingSellerSideViews"/>
+                </methods>
+            </class>
+            <class name="test.payments.transactions.tracked.BuyerSideShippingTests">
+                <methods>
+                    <include name="testCheckShippingStatusChangesBuyerSideViews"/>
+                    <include name="testCheckTrackingHistoryWithTrackedShippingBuyerSideViews"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>

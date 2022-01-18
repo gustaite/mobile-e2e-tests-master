@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="AUTOBAHN" verbose="1" configfailurepolicy="continue" >
+    <method-selectors>
+        <method-selector>
+            <selector-class
+                    name="commonUtil.testng.mobile.MobileMethodSelector"/>
+        </method-selector>
+    </method-selectors>
+    <listeners>
+        <listener class-name="util.testng.TestNGSuiteAlterListener"/>
+        <listener class-name="util.testng.InvokedMethodListener"/>
+        <listener class-name="commonUtil.testng.AnnotationTransformer"/>
+        <listener class-name="commonUtil.testng.MethodInterceptor"/>
+    </listeners>
+    <test name="Autobahn tests">
+        <classes>
+            <class name="test.basic.inbox.ConversationTests">
+                <methods>
+                    <include name="testLeavingVintedExternalLinkModal"/>
+                    <include name="testSuspiciousPhotoInConversation"/>
+                    <include name="testBlockingAndUnblockingInConversation"/>
+                    <include name="testConversationWithDeletedOppositeUser"/>
+                </methods>
+            </class>
+            <class name="test.basic.inbox.MessageActionsTests">
+                <methods>
+                    <include name="testRemoveMessageInConversationFromSenderSide"/>
+                    <include name="testRemovedMessageInConversationFromReceiverSide"/>
+                    <include name="testRemoveImageInConversationFromSenderSide"/>
+                    <include name="testRemovedImageInConversationFromReceiverSide"/>
+                    <include name="testCopyPasteViaBottomSheet"/>
+                </methods>
+            </class>
+            <class name="test.basic.BasicUserTests">
+                <methods>
+                    <include name="testUserDeletion"/>
+                    <include name="testUserPasswordChanging"/>
+                </methods>
+            </class>
+            <class name="test.basic.item.ItemActionsTests">
+                <methods>
+                    <include name="testReportItem"/>
+                    <include name="testMarkAsSoldFromReceiverSide"/>
+                </methods>
+            </class>
+            <class name="test.basic.navigation.NavigationFromProfileSettingsTabTests">
+                <methods>
+                    <include name="testNavigationFromSettingsTabToSecurityTab"/>
+                </methods>
+            </class>
+            <class name="test.basic.profile.UserProfileNoResetTests">
+                <methods>
+                    <include name="testFeedbackInProfile"/>
+                </methods>
+            </class>
+            <class name ="test.basic.DataSettingsTests">
+                <methods>
+                    <include name="testDownloadUserDataWhenEmailIsNotConfirmed"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>

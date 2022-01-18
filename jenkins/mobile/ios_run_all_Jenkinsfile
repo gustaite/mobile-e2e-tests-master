@@ -1,0 +1,144 @@
+import groovy.transform.Field
+@Field
+def testJobResults = [:]
+@Field
+def channel = 'automation-mobile-reports'
+@Field
+def skippedMessage = ""
+@Field
+def bigPictureJobUrl = ""
+
+@Library('auto-shared-lib') _
+pipeline {
+    agent {
+        node {
+          label "master"
+        }
+      }
+
+    environment {
+        NEXUS_CLI_USER_PASSWORD = credentials('NEXUS_CLI_USER_PASSWORD')
+        DEFAULT_USER_PASSWORD_PLAIN = credentials('DEFAULT_USER_PASSWORD_PLAIN')
+        DEFAULT_USER_PASSWORD_ENCODED = credentials('DEFAULT_USER_PASSWORD_ENCODED')
+        AFTERSHIP_API_KEY = credentials('AFTERSHIP_API_KEY')
+    }
+
+    options {
+        enforceBuildSchedule()
+        buildDiscarder(logRotator(daysToKeepStr: '30', artifactDaysToKeepStr: '30'))
+        disableConcurrentBuilds()
+    }
+
+  triggers {
+      parameterizedCron("H 4 * * 1-5 %IOS_APP_VERSION=${env.IOS_LATEST_RELEASE_BRANCH}")
+        cron('H 3 * * 1-5')
+  }
+
+  parameters {
+      string(name: 'IOS_APP_VERSION', defaultValue: '', description: '')
+
+      choice(name: 'TEST_SUITE', choices: ['regression', 'smoke', 'int_buyers', 'mario', 'find', 'nomads', 'shipping', 'autobahn', 'karma', 'debug', 'b2c', 'imageRecognition', 'reliability', 'cozy', 'a_team'], description: '')
+
+      gitParameter(branchFilter: 'origin/(.*)', defaultValue: 'master', name: 'BRANCH', type: 'PT_BRANCH', selectedValue:'DEFAULT', quickFilterEnabled: true)
+
+      extendedChoice(
+                defaultValue: 'CZ,INT,PL,US,UK,LT,DE,SB_INT,SB_DE,SB_UK,SB_US,SB_PL,SB_LT,SB_CZ',
+                description: '',
+                multiSelectDelimiter: ',',
+                name: 'PORTAL',
+                quoteValue: false,
+                saveJSONParameterToFile: false,
+                type: 'PT_MULTI_SELECT',
+                value:'CZ,INT,PL,US,UK,LT,DE,SB_INT,SB_DE,SB_UK,SB_US,SB_PL,SB_LT,SB_CZ',
+                visibleItemCount: 14)
+
+      booleanParam(name: 'RUN_ALL_ON_SANDBOX', defaultValue: false, description: 'Allows all tests to be run on sandbox')
+  }
+
+  stages {
+      stage('Info') {
+          steps {
+              script {
+                  currentBuild.displayName = "${env.JOB_NAME}: ${params.BRANCH}"
+                  params.each { param ->
+                      currentBuild.description = "${param.key}: ${param.value} \n ${currentBuild.description}"
+                  }
+
+                  def regex = /(\d+.?)+/
+                  if (params.IOS_APP_VERSION ==~ regex) {
+                      slack.message("qa-core-and-auto", "Tests for :apple_icon: ${params.IOS_APP_VERSION} have started")
+                  }
+              }
+          }
+      }
+
+  	stage("Run iOS tests") {
+  		steps {
+  			script {
+  				for(portal in params.PORTAL.split(',')) {
+                    def nexusUrl = nexus.getIpaUrl(portal, params.IOS_APP_VERSION)
+                    def responseStatus = nexus.getRequestStatus(nexusUrl)
+                    if (responseStatus == "404") {
+                        skippedMessage += "\n${portal} was skipped. Cannot find app in nexus: ${nexusUrl}."
+                        continue
+                    }
+
+    				stage("Run tests in ${portal}") {
+              				buildtmp = build job: 'ios-e2e-tests-on-portal', parameters: [
+							string(name: 'PORTAL', value: portal),
+							string(name: 'IOS_APP_VERSION', value: params.IOS_APP_VERSION),
+							string(name: 'TEST_SUITE', value: params.TEST_SUITE),
+                            string(name: 'BRANCH', value: params.BRANCH),
+                            booleanParam(name: 'RUN_ALL_ON_SANDBOX', value: params.RUN_ALL_ON_SANDBOX)
+						], wait: true, propagate: false
+
+                        echo "build tmp: ${buildtmp.getAbsoluteUrl()}"
+                        def result = buildtmp.getResult()
+                        testJobResults["${portal}"] = [result: "${result}", absoluteUrl: "${buildtmp.getAbsoluteUrl()}", buildNumber: "${buildtmp.getNumber()}"]
+      				}
+    			}
+  			}
+  		}
+  	}
+    stage("Generate Report") {
+      steps {
+          script {
+              jobReport = build job: 'Big_Picture_Report', parameters: [
+                      string(name: 'IOS_NUMBER', value: env.BUILD_NUMBER)
+              ], wait: true, propagate: false
+
+              echo "build report: ${jobReport.getAbsoluteUrl()}"
+              bigPictureJobUrl = jobReport.getAbsoluteUrl()
+          }
+      }
+    }
+  }
+
+  post {
+    always {
+    	sh "env"
+		script {
+            report.generate_allure_report_collection(testJobResults, env.WORKSPACE, bigPictureJobUrl)
+		}
+    }
+    failure {
+        script {
+            message("danger")
+        }
+    }
+    success {
+        script {
+            message("good")
+        }
+    }
+    aborted {
+        script {
+            message("warning")
+        }
+    }
+  }
+}
+
+def message(String color) {
+    slack.send_results_message(channel, color, ":apple_icon: ${params.IOS_APP_VERSION}", "${params.TEST_SUITE} collection", testJobResults, skippedMessage)
+}

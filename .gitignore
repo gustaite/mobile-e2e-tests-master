@@ -1,0 +1,10 @@
+.idea/*
+.allure/*
+.gradle/*
+*/allure-results/*
+allure-report/*
+local.properties
+*.class
+*/.DS_Store
+.DS_Store
+build/reports/detekt/*

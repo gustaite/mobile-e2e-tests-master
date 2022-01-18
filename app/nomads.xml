@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="NOMADS" verbose="1" configfailurepolicy="continue" >
+    <method-selectors>
+        <method-selector>
+            <selector-class
+                    name="commonUtil.testng.mobile.MobileMethodSelector"/>
+        </method-selector>
+    </method-selectors>
+    <listeners>
+        <listener class-name="util.testng.TestNGSuiteAlterListener" />
+        <listener class-name="util.testng.InvokedMethodListener"/>
+        <listener class-name="commonUtil.testng.AnnotationTransformer"/>
+        <listener class-name="commonUtil.testng.MethodInterceptor"/>
+    </listeners>
+    <test name="Nomads tests">
+        <classes>
+            <class name="test.payments.BumpsTests">
+                <methods>
+                    <include name="testBuyingTwoBumpsAtOnce"/>
+                    <include name="testBumpingOneItemWithVintedWallet"/>
+                    <include name="testBumpingOneItemWithCreditCardAddedFromCheckoutAndNotSaved"/>
+                    <include name="testBumpingOneItemWithCreditCardAddedFromCheckoutAndSaved"/>
+                    <include name="testBuyingOneBumpThroughBumpBanner"/>
+                    <include name="testBumpStatisticsScreen"/>
+                    <include name="testAddingAndRemovingItemInBumpsCheckout"/>
+                    <include name="testElementsInBumpsPreCheckoutScreen"/>
+                </methods>
+            </class>
+            <class name="test.payments.BumpsThirdPartyActionsTests">
+                <methods>
+                    <include name="testBumpingOneItemWithIDeal"/>
+                    <include name="testBumpingOneItemWithPayPal"/>
+                    <include name="testBumpingOneItemWithSofort"/>
+                    <include name="testBumpingOneItemWithBlik"/>
+                    <include name="testBumpingOneItemWithDotPay"/>
+                </methods>
+            </class>
+            <class name="test.payments.ClosetPromoStatisticsTests">
+                <methods>
+                    <include name="testBuyClosetPromoForDefaultUser"/>
+                    <include name="testClosetPromoStatisticsScreen"/>
+                </methods>
+            </class>
+            <class name="test.payments.ClosetPromoTests">
+                <methods>
+                    <include name="testBuyingClosetPromoCardNotSaved"/>
+                    <include name="testBuyingClosetPromoWithCreditCard"/>
+                    <include name="testBuyingClosetPromoWithVintedWallet"/>
+                </methods>
+            </class>
+            <class name="test.payments.ClosetPromoThirdPartyActionsTests">
+                <methods>
+                    <include name="testBuyingClosetPromoWithIDeal"/>
+                    <include name="testBuyingClosetPromoWithPayPal"/>
+                    <include name="testBuyingClosetPromoWithSofort"/>
+                    <include name="testBuyingClosetPromoWithBlik"/>
+                    <include name="testBuyingClosetPromoWithDotPay"/>
+                </methods>
+            </class>
+            <class name="test.basic.b2c.BusinessSellerItemTests">
+                <methods>
+                    <include name="testElementsInBusinessAccountItemScreen"/>
+                    <include name="testBusinessAccountItemCheckoutScreen"/>
+                </methods>
+            </class>
+            <class name="test.basic.b2c.BusinessSellerProfileTests">
+                <methods>
+                    <include name="testElementsInBusinessAccountProfileTab"/>
+                    <include name="testElementsInBusinessAccountAboutTab"/>
+                    <include name="testProfileDetailsWhenLoggedInToBusinessAccount"/>
+                </methods>
+            </class>
+            <class name="test.basic.b2c.BusinessSellerUploadTests">
+                <methods>
+                    <include name="testB2cUserCannotUploadToBeautyCategory"/>
+                    <include name="testB2cUserCannotUploadWithCustomShipping"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>

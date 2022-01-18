@@ -1,0 +1,124 @@
+@Library('auto-shared-lib') _
+pipeline {
+    agent {
+        node {
+            label "master"
+        }
+    }
+
+    environment {
+        NEW_JENKINS = 'true'
+        CREDIT_CARD_DETAILS = credentials('CREDIT_CARD_DETAILS_ID')
+        NEXUS_CLI_USER_PASSWORD = credentials('NEXUS_CLI_USER_PASSWORD')
+        DEFAULT_USER_PASSWORD_PLAIN = credentials('DEFAULT_USER_PASSWORD_PLAIN')
+        DEFAULT_USER_PASSWORD_ENCODED = credentials('DEFAULT_USER_PASSWORD_ENCODED')
+        AFTERSHIP_API_KEY = credentials('AFTERSHIP_API_KEY')
+    }
+
+    options {
+        disableConcurrentBuilds()
+        buildDiscarder(logRotator(daysToKeepStr: '30', artifactDaysToKeepStr: '30'))
+        timeout(time: 35, unit: 'MINUTES')
+        ansiColor('xterm')
+    }
+
+    parameters {
+        string(name: 'IOS_APP_VERSION', defaultValue: '', description: '')
+
+        choice(name: 'PORTAL', choices: ['CZ', 'INT', 'PL', 'US', 'UK', 'LT', 'DE', 'NL', 'ES', 'LU', 'BE', 'PT', 'IT', 'AT', 'SB_INT', 'SB_DE', 'SB_UK', 'SB_US', 'SB_PL', 'SB_LT', 'SB_CZ', 'SB_NL', 'SB_ES', 'SB_LU', 'SB_BE', 'SB_PT', 'SB_IT', 'SB_AT'], description: '')
+
+        choice(name: 'TEST_SUITE', choices: ['regression', 'smoke', 'int_buyers', 'mario', 'find', 'nomads', 'shipping', 'autobahn', 'karma', 'debug', 'b2c', 'imageRecognition', 'reliability', 'cozy', 'a_team'], description: '')
+
+        gitParameter(branchFilter: 'origin/(.*)', defaultValue: 'master', name: 'BRANCH', type: 'PT_BRANCH', selectedValue: 'DEFAULT', quickFilterEnabled: true)
+
+        booleanParam(name: 'RUN_ALL_ON_SANDBOX', defaultValue: false, description: 'Allows all tests to be run on sandbox')
+    }
+
+    stages {
+
+        stage('Check is Hub available') {
+            steps {
+                script {
+                    hub.checkIfHubAvailable()
+                }
+            }
+        }
+
+        stage('Clean workspace') {
+            steps {
+                cleanWs()
+            }
+        }
+
+        stage('Checkout') {
+            steps {
+                git(branch: "${params.BRANCH}", credentialsId: 'vinted-ios', url: 'git@github.com:vinted/mobile-e2e-tests.git')
+            }
+        }
+
+        stage('Prepare environment for tests run') {
+            parallel {
+                stage('Restart iOS Appium nodes') {
+                    steps {
+                        build job: 'SG-Node-Restart', parameters: [string(name: 'PLATFORM', value: 'iOS')], propagate: false
+                    }
+                }
+
+                stage('Download IPAs') {
+                    steps {
+                        build job: 'Infra/Ios-ipa-download', parameters: [string(name: 'PORTAL', value: "${params.PORTAL}"), string(name: 'IOS_APP_VERSION', value: "${params.IOS_APP_VERSION}")], propagate: false
+                    }
+                }
+            }
+        }
+
+        stage('Print Dowloaded from Nexus status') {
+            steps {
+                script {
+                    def failedList = hub.getiOSnodesThatNeedToBeDisableFromGrid(params.PORTAL, params.BRANCH, nodes.getEnabled())
+                    if(failedList.size() > 0) {
+                        slack.message('automation-status', "Failed to download ${params.PORTAL} `${params.BRANCH}` ipa from nexus: ${failedList}.These nodes should be disabled for this test run")
+                    }
+                }
+            }
+        }
+
+
+        stage('Run iOS tests') {
+            steps {
+                sh "./gradlew --no-daemon clean test -Dtest.platform=Ios -Dtest.portal=${params.PORTAL} -Dtest.run_all_on_sandbox=${params.RUN_ALL_ON_SANDBOX} -Psuite=${params.TEST_SUITE}"
+            }
+        }
+    }
+
+    post {
+        always {
+            sh "env"
+
+            script {
+                allure([
+                        includeProperties: false,
+                        jdk              : '',
+                        properties       : [],
+                        reportBuildPolicy: 'ALWAYS',
+                        results          : [[path: 'app/build/allure-results']]
+                ])
+            }
+
+            sh 'zip -r test-cases ./allure-report/data/test-cases*'
+            archiveArtifacts(artifacts: '**/testng-results.xml, **/tests/test/classes/*.html, **/test-cases.zip', caseSensitive: true)
+
+            publishHTML(
+                    target: [
+                            allowMissing         : false,
+                            alwaysLinkToLastBuild: false,
+                            keepAll              : false,
+                            reportDir            : 'app/build/allure-results',
+                            reportFiles          : 'index.html',
+                            reportName           : "Allure Report"
+                    ]
+            )
+        }
+    }
+}
+

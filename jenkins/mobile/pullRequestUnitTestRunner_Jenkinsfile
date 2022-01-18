@@ -1,0 +1,52 @@
+@Library('auto-shared-lib') _
+pipeline {
+    agent {
+        node {
+            label "auto"
+        }
+    }
+
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '120', artifactNumToKeepStr: '60'))
+        timeout(time: 15, unit: 'MINUTES')
+    }
+
+    parameters {
+
+        gitParameter(branchFilter: 'origin/(.*)', defaultValue: 'master', name: 'BRANCH', type: 'PT_BRANCH', selectedValue: 'DEFAULT', quickFilterEnabled: true)
+    }
+
+    environment {
+        NEXUS_CLI_USER_PASSWORD = credentials('NEXUS_CLI_USER_PASSWORD')
+        DEFAULT_USER_PASSWORD_PLAIN = credentials('DEFAULT_USER_PASSWORD_PLAIN')
+        DEFAULT_USER_PASSWORD_ENCODED = credentials('DEFAULT_USER_PASSWORD_ENCODED')
+        AFTERSHIP_API_KEY = credentials('AFTERSHIP_API_KEY')
+    }
+
+    stages {
+
+        stage('Checkout') {
+            steps {
+                git(branch: "${params.BRANCH}", credentialsId: 'vinted-ios', url: 'git@github.com:vinted/mobile-e2e-tests.git')
+            }
+        }
+
+        stage('Run unit tests') {
+            steps {
+                sh "./gradlew unitTest --tests \"unitTest.*\" --no-daemon"
+            }
+        }
+    }
+
+    post {
+        always {
+            archiveArtifacts(artifacts: 'app/build/test-results/unitTest/*.xml', caseSensitive: true)
+
+            script {
+                junit 'app/build/test-results/unitTest/*.xml'
+            }
+            cleanWs()
+        }
+    }
+}
+

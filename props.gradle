@@ -1,0 +1,31 @@
+def getProps(String propName) {
+    def propsFile = new File("$rootDir/local.properties")
+    if (propsFile.exists()) {
+        def props = new Properties()
+        props.load(new FileInputStream(propsFile))
+        return props[propName].toString().trim()
+    }
+}
+
+def isLocalCommon() {
+    return getProps('localCommon') == 'true'
+}
+
+def getNexusUrl() {
+    return "https://nexus.vinted.net/repository/maven-hosted-qa-automated-tests-releases/"
+}
+
+ext {
+    getProps = this.&getProps
+    isLocalCommon = this.&isLocalCommon
+    getNexusUrl = this.&getNexusUrl
+    if (isLocalCommon()) {
+        // Local snapshot
+        common_version = '1.0-SNAPSHOT'
+        println "Using Local common version: $common_version"
+    } else {
+        // Version used from nexus
+        common_version = '2022-01-14.237'
+        println "Using Remote common version: $common_version"
+    }
+}

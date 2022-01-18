@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="FIND" verbose="1" configfailurepolicy="continue" >
+    <method-selectors>
+        <method-selector>
+            <selector-class
+                    name="commonUtil.testng.mobile.MobileMethodSelector"/>
+        </method-selector>
+    </method-selectors>
+    <listeners>
+        <listener class-name="util.testng.TestNGSuiteAlterListener" />
+        <listener class-name="util.testng.InvokedMethodListener"/>
+        <listener class-name="commonUtil.testng.AnnotationTransformer"/>
+        <listener class-name="commonUtil.testng.MethodInterceptor"/>
+    </listeners>
+    <test name="Find team tests">
+        <classes>
+            <class name="test.basic.catalog.CatalogTests">
+                <methods>
+                    <include name="testThatFiltersAndSortingButtonsAreVisibleInCatalog"/>
+                    <include name="testSortingInCatalog"/>
+                    <include name="testBrandUnfollowButtonInCatalogScreen"/>
+                    <include name="testSubscribeAndUnsubscribeSearchWithSubscribeButton"/>
+                    <include name="testBrandLikeButtonInCatalogScreen"/>
+                    <include name="testHorizontalFiltersVisibilityWhenScrolling"/>
+                </methods>
+            </class>
+            <class name="test.basic.catalog.FiltersTests">
+                <methods>
+                    <include name="testSwapOptionInFilterIsWorking"/>
+                    <include name="testFilteringItemsByPrice"/>
+                    <include name="testFilteringItemsByCondition"/>
+                    <include name="testFilteringItemsByColor"/>
+                    <include name="testFilteringItemsByBrand"/>
+                    <include name="testHorizontalFilters"/>
+                    <include name="testHomeDecorFilters"/>
+                    <include name="testFilteringItemsBySize"/>
+                    <include name="testFilteringItemsByCatalog"/>
+                </methods>
+            </class>
+            <class name="test.basic.FeedTests">
+                <methods>
+                    <include name="testItemFavoritingAndUnfavoritingFromFeed"/>
+                    <include name="testItemOpeningFromFeed"/>
+                </methods>
+            </class>
+            <class name="test.basic.HomepageTests">
+                <methods>
+                    <include name="testNewUserHomepage"/>
+                    <include name="testCategoriesInHomepage"/>
+                    <include name="testFavoritesBlockHomepage"/>
+                    <include name="testPopularItemsBlockHomepage"/>
+                </methods>
+            </class>
+            <class name="test.basic.HolidayModeTests">
+                <methods>
+                    <include name="testDisablingHolidayModeAndCheckingThatItemIsVisible"/>
+                    <include name="testHolidayModeBanner"/>
+                    <include name="testEnablingHolidayModeAndCheckingThatItemIsHidden"/>
+                </methods>
+            </class>
+            <class name="test.basic.item.ItemTests">
+                <methods>
+                    <include name="testHashtagInItemDescription"/>
+                </methods>
+            </class>
+            <class name="test.basic.navigation.NavigationFromNavigationBarTests">
+                <methods>
+                    <include name="testNavigationFromNavigationBarToFeedTab"/>
+                    <include name="testNavigationFromNavigationBarToBrowseTab"/>
+                </methods>
+            </class>
+            <class name="test.basic.navigation.NavigationFromProfileTests">
+                <methods>
+                    <include name="testNavigationFromProfileTabToPersonalisation"/>
+                    <include name="testNavigationFromProfileTabToHolidayMode"/>
+                    <include name="testNavigationFromProfileTabToMyFavourites"/>
+                </methods>
+            </class>
+            <class name="test.basic.personalization.PersonalizationResetTests">
+                <methods>
+                    <include name="testIfRightSizesAreDisplayedAfterKeywordSearchWithOnePersonalSize"/>
+                    <include name="testFeedRefreshAfterSettingPersonalizationSizes"/>
+                    <include name="testPersonalizationSizesAreAppliedInFilters"/>
+                    <include name="testAssertRightSizesAreDisplayedAfterChangingCatalog"/>
+                    <include name="testBrandFollowAndUnfollow"/>
+                    <include name="testSizesAfterSelectingSubcategoryInFilters"/>
+                    <include name="testIfPersonalSizesAreNotAppliedAfterClearingFilters"/>
+                    <include name="testIfRightSizesAreDisplayedAfterKeywordSearch"/>
+                    <include name="testIfPersonalSizesAreAppliedInSelectedSubcategory"/>
+                    <include name="testIfSizesAddedInPersonalizationAndFiltersAreApplied"/>
+                    <include name="testSizesWhenPersonalSizesAreSelectedForOneCatalog"/>
+                    <include name="testSizesAfterSelectingSubcategoryInFiltersWithOnePersonalSize"/>
+                </methods>
+            </class>
+            <class name="test.basic.SearchTests">
+                <methods>
+                    <include name="testCreatingTwoSubscribedSearches"/>
+                    <include name="testIfSubscribedSearchWithKeywordIsNotChangedAfterAddingFilters"/>
+                    <include name="testMembersSearchIsWorking"/>
+                    <include name="testEditingSubscribedSearchWithBrandFilter"/>
+                    <include name="testIfRecentSearchIsUpdatedAfterEditingFilters"/>
+                    <include name="testUpdatingRecentSearchWithKeyword"/>
+                    <include name="testEditingSubscribedSearchWithKeywordAndFilters"/>
+                    <include name="testUpdatingRecentSearchWithKeywordAndFilters"/>
+                    <include name="testBrandBannerIsDisplayed"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>

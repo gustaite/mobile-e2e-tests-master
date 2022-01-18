@@ -1,0 +1,83 @@
+def DETEKT_MESSAGE = ""
+def UNIT_TEST_MESSAGE = ""
+
+@Library('auto-shared-lib') _
+pipeline {
+    agent {
+        node {
+            label "auto"
+        }
+    }
+
+    options {
+        disableConcurrentBuilds()
+        buildDiscarder(logRotator(numToKeepStr: '60', artifactNumToKeepStr: '30'))
+        timeout(time: 15, unit: 'MINUTES')
+    }
+
+    environment {
+        NEW_JENKINS = 'true'
+    }
+
+
+    stages {
+
+        stage('Trigger detekt report') {
+            steps {
+                script {
+                    def job = build job: '../../Scheduled-mobile-tests/mobile-e2e-tests-detekt-runner',
+                            wait: true,
+                            propagate: false,
+                            parameters: [
+                                    string(name: 'BRANCH', value: "${pullRequest.headRef}"),
+                            ]
+
+                    def detektReportUrl = "${job.getAbsoluteUrl()}/artifact/build/reports/detekt/detekt.html"
+                    DETEKT_MESSAGE = "HTML report: [DETEKT report](${detektReportUrl})"
+                }
+            }
+        }
+
+        stage('Trigger unit test') {
+
+            steps {
+                script {
+                    def job = build job: '../../Scheduled-mobile-tests/mobile-e2e-tests-unit-test-runner',
+                            wait: true,
+                            propagate: false,
+                            parameters: [
+                                    string(name: 'BRANCH', value: "${pullRequest.headRef}"),
+                            ]
+
+                    def unitTestResult = job.getResult()
+                    def buildResultImage = ""
+                    if (unitTestResult == "SUCCESS") {
+                        buildResultImage = " :white_check_mark: "
+                    } else {
+                        buildResultImage = " :x: "
+                    }
+
+                    UNIT_TEST_MESSAGE = "\nUnit tests result: ${unitTestResult} ${buildResultImage}[REPORT](${job.getAbsoluteUrl()}/testReport/)"
+
+                    catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                        script {
+                            if (unitTestResult != "SUCCESS") {
+                                sh "exit 1"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            cleanWs()
+            script {
+                pullRequest.comment("${DETEKT_MESSAGE}${UNIT_TEST_MESSAGE}")
+            }
+        }
+    }
+}
+

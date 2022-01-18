@@ -1,0 +1,106 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+apply plugin: 'maven-publish'
+apply plugin: 'java'
+apply from: "$rootDir/props.gradle"
+
+project.extensions.extraProperties.set("CommonDetekt", io.gitlab.arturbosch.detekt.Detekt)
+project.extensions.extraProperties.set("CommonDetektCreateBaselineTask", io.gitlab.arturbosch.detekt.DetektCreateBaselineTask)
+
+buildscript {
+    ext {
+        retrofitVersion = "2.9.0"
+        moshiVersion = "1.12.0"
+        kotlin_version = "1.5.21"
+        detektVersion = "1.17.1"
+        propertiesPluginName = "vinted.automated-tests.gradle-plugins.properties"
+    }
+
+    repositories {
+        google()
+        mavenCentral()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "io.qameta.allure:allure-gradle:2.8.1"
+        classpath("io.gitlab.arturbosch.detekt:detekt-gradle-plugin:$detektVersion")
+        classpath("io.gitlab.arturbosch.detekt:detekt-formatting:$detektVersion")
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+
+    configurations {
+        create("compile")
+    }
+
+    project.pluginManager.apply('io.gitlab.arturbosch.detekt')
+    project.pluginManager.apply("common_scripts")
+    project.pluginManager.apply("$propertiesPluginName")
+    repositories {
+        if (isLocalCommon()) {
+            mavenLocal()
+        }
+        maven {
+            url = getNexusUrl()
+        }
+        google()
+        mavenCentral()
+        maven { url 'https://jitpack.io' }
+    }
+
+    dependencies {
+        detektPlugins "io.gitlab.arturbosch.detekt:detekt-formatting:$detektVersion"
+        detektPlugins "vinted.automated-tests:detekt-custom-rules:$common_version"
+    }
+}
+
+clean {
+    delete rootProject.buildDir
+}
+
+allprojects {
+    configurations.all {
+        resolutionStrategy {
+            cacheChangingModulesFor(0, 'seconds')
+        }
+    }
+
+    def skip = Boolean.getBoolean('skip.build')
+    println("Kotlin and java compile tasks should be skipped:" + skip)
+
+    // Prevent old allure-results to exist by deleting build/allure-results on app projects
+    task configured {
+        if ((project.name == 'app') && !skip) {
+            if (project.getBuildDir().exists()) {
+                project.getBuildDir().eachDir { dir ->
+                    if (dir.name == "allure-results") {
+                        println "DELETED: '${dir.name}' from path: '${dir.path}'"
+                        delete dir
+                    }
+                }
+            }
+        }
+    }
+
+    tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+
+        enabled = !skip
+        kotlinOptions {
+            jvmTarget = "1.8"
+        }
+    }
+
+    tasks.withType(JavaCompile) {
+        enabled = !skip
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
+    tasks.getByPath("detekt").onlyIf {
+        project.hasProperty("runDefaultDetekt") }
+}

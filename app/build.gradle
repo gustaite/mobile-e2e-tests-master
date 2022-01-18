@@ -1,0 +1,153 @@
+plugins {
+    id 'com.adarshr.test-logger' version '3.1.0'
+}
+
+apply plugin: 'de.fuerstenau.buildconfig'
+apply plugin: 'java'
+apply plugin: 'kotlin'
+apply plugin: 'idea'
+apply plugin: 'io.qameta.allure'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'de.undercouch.download'
+apply from: "$rootDir/props.gradle"
+
+buildConfig {
+    def propertiesPlugin = project.plugins.getPlugin("$propertiesPluginName")
+    appName = project.name
+
+    clsName = 'BuildConfig'
+    packageName = 'util'
+    charset = 'UTF-8'
+
+    buildConfigField "String", "MAX_RETRY_COUNT", propertiesPlugin.config.max_retry_count
+    buildConfigField "String", "CREDIT_CARD_DETAILS", propertiesPlugin.config.credit_card_details
+    buildConfigField "String", "REMOTE_SELENIUM_GRID", propertiesPlugin.config.remote_selenium_grid
+    buildConfigField "String", "ANDROID_APP_VERSION", propertiesPlugin.config.android_app_version
+    buildConfigField "String", "IOS_APP_VERSION", propertiesPlugin.config.ios_app_version
+    buildConfigField "String", "DELETE_ANDROID_FILES", propertiesPlugin.config.delete_android_files
+    buildConfigField "String", "THREAD_COUNT", propertiesPlugin.config.thread_count
+    buildConfigField "String", "DEVICE_NAME", propertiesPlugin.config.device_name
+    buildConfigField "String", "RUN_ALL_ON_SANDBOX", propertiesPlugin.config.run_all_on_sandbox
+    buildConfigField "String", "PLATFORM", propertiesPlugin.config.platform
+    buildConfigField "String", "PORTAL", propertiesPlugin.config.portal
+    buildConfigField "String", "ALWAYS_LOG_API_RESPONSE", propertiesPlugin.config.always_log_api_response
+}
+
+testlogger {
+    theme 'standard-parallel' // project level
+    slowThreshold 5000
+}
+
+test {
+    doFirst {
+        systemProperty "ANDROID_APP_API_VERSION", getAndroidAppVersion()
+        systemProperty "IOS_APP_API_VERSION", getIosAppVersion()
+    }
+    maxHeapSize = "6144m"
+    jvmArgs "-XX:MaxMetaspaceSize=6144m"
+    systemProperty "test.platform", System.getProperty("test.platform")
+    systemProperty "test.portal", System.getProperty("test.portal")
+
+    def seleniumGridUrl = System.getProperty("selenium_grid_url")
+    systemProperty "SELENIUM_GRID_URL", seleniumGridUrl
+    println "SELENIUM GRID ADDRESS: $seleniumGridUrl"
+
+    def suiteName = "regression"
+    if (project.hasProperty('suite')) {
+        suiteName = suite
+    }
+
+    useTestNG() {
+        suites "${suiteName}.xml"
+        useDefaultListeners = true // Required to auto-create TestNG XML results for Jenkins
+    }
+}
+
+task catalogScrollTest(type: Test) {
+    doFirst {
+        systemProperty "ANDROID_APP_API_VERSION", getAndroidAppVersion()
+        systemProperty "IOS_APP_API_VERSION", getIosAppVersion()
+    }
+    systemProperty "test.platform", System.getProperty("test.platform")
+    systemProperty "test.portal", System.getProperty("test.portal")
+    systemProperty "SELENIUM_GRID_URL", System.getProperty("selenium_grid_url")
+
+    useTestNG() { suites 'catalogScrollConfiguration.xml' }
+}
+
+task unitTest(type: Test) {
+    useJUnit()
+}
+
+allure {
+    version = '2.14.0'
+    aspectjweaver = true
+    autoconfigure = true
+    allureJavaVersion = '2.14.0'
+    configuration = 'testImplementation'
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+    implementation 'io.appium:java-client:7.5.1'
+    implementation 'org.testng:testng:7.4.0'
+    implementation "com.squareup.moshi:moshi-kotlin:$moshiVersion"
+    implementation "org.awaitility:awaitility-kotlin:4.1.0"
+    implementation "vinted.automated-tests:common-utils:$common_version"
+    implementation "vinted.automated-tests:common-api:$common_version"
+    implementation 'com.github.jkcclemens:khttp:0.1.0'
+    implementation 'org.apache.commons:commons-text:1.9'
+    implementation 'commons-codec:commons-codec:1.15'
+    implementation 'org.jsoup:jsoup:1.14.3'
+    testImplementation "io.mockk:mockk:1.12.0"
+    testImplementation 'junit:junit:4.13.2'
+}
+
+private Boolean shouldDownloadFile(String platform) {
+    def propertiesPlugin = project.plugins.getPlugin("$propertiesPluginName")
+    def actualPlatform = propertiesPlugin.config.platform
+
+    def fileExtension
+    def pathToDownloadedFile
+    def pathPropName
+    if (platform == 'Android') {
+        fileExtension = 'APK'
+        pathPropName = 'APK_PATH'
+        pathToDownloadedFile = getPathToDownloadedApk()
+    } else {
+        fileExtension ='IPA'
+        pathPropName = "APP_PATH"
+        pathToDownloadedFile = getPathToDownloadedIpa()
+    }
+
+    // Decide if file needs to be downloaded
+    if (platform == actualPlatform && System.getenv("NEW_JENKINS") != 'true') {
+        def customFilePath = getProps(pathPropName) ?: ""
+        // When custom APK_PATH or APP_PATH is set, apk/ipa should not be downloaded additionally
+        if ((customFilePath != "null" && customFilePath.length() > 0) || fileExistsAndNotOlderThanLastNight(pathToDownloadedFile)) {
+            println "$fileExtension file already exists or custom path used '$customFilePath', no need to download"
+            return false
+        } else {
+            println "$fileExtension file should be downloaded locally"
+            return true
+        }
+    } else {
+        println "No need to download $fileExtension file"
+        return false
+    }
+}
+
+
+task setApkDonwloadTaskIfNotJenkins() {
+    if (shouldDownloadFile('Android')) dependsOn downloadApk
+}
+
+
+task setIpaDonwloadTaskIfNotJenkins() {
+    if (shouldDownloadFile('Ios')) dependsOn downloadIpa
+}
+
+test.dependsOn setApkDonwloadTaskIfNotJenkins
+test.dependsOn setIpaDonwloadTaskIfNotJenkins

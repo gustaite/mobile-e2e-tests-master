@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="SMOKE" verbose="1" configfailurepolicy="continue" >
+    <method-selectors>
+        <method-selector>
+            <selector-class
+                    name="commonUtil.testng.mobile.MobileMethodSelector"/>
+        </method-selector>
+    </method-selectors>
+    <listeners>
+        <listener class-name="util.testng.TestNGSuiteAlterListener"/>
+        <listener class-name="util.testng.InvokedMethodListener"/>
+        <listener class-name="commonUtil.testng.AnnotationTransformer"/>
+        <listener class-name="commonUtil.testng.MethodInterceptor"/>
+    </listeners>
+    <test name="Smoke tests" >
+        <classes>
+            <class name="test.basic.BasicUserTests">
+                <methods>
+                    <include name="testSignInWithUsername"/>
+                    <include name="testSignUpWithEmail"/>
+                    <include name="testUserPasswordChanging"/>
+                    <include name="testUserDeletion"/>
+                </methods>
+            </class>
+            <class name="test.basic.SkipAuthenticationTests">
+                <methods>
+                    <include name="testSkipAuthenticationForAskSeller"/>
+                </methods>
+            </class>
+            <class name="test.payments.BumpsTests">
+                <methods>
+                    <include name="testElementsInBumpsPreCheckoutScreen"/>
+                </methods>
+            </class>
+            <class name="test.basic.inbox.ConversationTests">
+                <methods>
+                    <include name="testBlockingAndUnblockingInConversation"/>
+                    <include name="testSendNewMessageViaInbox"/>
+                    <include name="testAddGalleryPhotoInConversation"/>
+                    <include name="testConversationIsNotVisibleInInboxAfterDeletingIt"/>
+                </methods>
+            </class>
+            <class name="test.payments.CreditCardTests">
+                <methods>
+                    <include name="testAddNewCreditCard"/>
+                </methods>
+            </class>
+            <class name="test.basic.FeedTests">
+                <methods>
+                    <include name="testItemFavoritingAndUnfavoritingFromFeed"/>
+                    <include name="testItemOpeningFromFeed"/>
+                </methods>
+            </class>
+            <class name="test.basic.LocalisationTests">
+                <methods>
+                    <include name="testChangingAppLanguage"/>
+                </methods>
+            </class>
+            <class name="test.basic.personalization.PersonalizationNoResetTests">
+                <methods>
+                    <include name="testApplyingSizesInPersonalizationSettings"/>
+                    <include name="testPersonalizationBrandSearchAndFollowIt"/>
+                </methods>
+            </class>
+            <class name="test.basic.personalization.PersonalizationResetTests">
+                <methods>
+                    <include name="testPersonalizationSizesAreAppliedInFilters"/>
+                    <include name="testAssertRightSizesAreDisplayedAfterChangingCatalog"/>
+                    <include name="testSizesAfterSelectingSubcategoryInFilters"/>
+                </methods>
+            </class>
+            <class name="test.basic.SearchTests">
+                <methods>
+                    <include name="testMembersSearchIsWorking"/>
+                </methods>
+            </class>
+            <class name="test.payments.WalletTests">
+                <methods>
+                    <include name="testActivatingWallet"/>
+                    <include name="testActivatingWalletEditBillingAddress"/>
+                </methods>
+            </class>
+            <class name="test.basic.WebViewTests">
+                <methods>
+                    <include name="testIfHelpCenterOpensWebView"/>
+                </methods>
+            </class>
+            <class name="test.basic.catalog.CatalogTests">
+                <methods>
+                    <include name="testThatFiltersAndSortingButtonsAreVisibleInCatalog"/>
+                    <include name="testSortingInCatalog"/>
+                </methods>
+            </class>
+            <class name="test.basic.catalog.CatalogScrollTests">
+                <methods>
+                    <include name="testNavigatingInCatalogAndItemScreen"/>
+                </methods>
+            </class>
+            <class name="test.basic.catalog.FiltersTests">
+                <methods>
+                    <include name="testFilteringItemsByCatalogAndSize"/>
+                    <include name="testFilteringItemsByPrice"/>
+                    <include name="testHorizontalFilters"/>
+                </methods>
+            </class>
+            <class name="test.basic.item.EditItemTests">
+                <methods>
+                    <include name="testEditItemPrice"/>
+                </methods>
+            </class>
+            <class name="test.basic.item.ItemActionsTests">
+                <methods>
+                    <include name="testHideItem"/>
+                    <include name="testDeleteItem"/>
+                    <include name="testReserveItem"/>
+                    <include name="testSellItem"/>
+                    <include name="testReportItem"/>
+                </methods>
+            </class>
+            <class name="test.basic.item.ItemTests">
+                <methods>
+                    <include name="testItemNameSizeBrandConditionPriceLocationAreVisible"/>
+                    <include name="testAskButtonLeadsToCorrectConversation"/>
+                    <include name="testBuyButtonLeadsToCorrectCheckout"/>
+                    <include name="testItemSellerInfoBlockIsOpenedAfterClick" />
+                </methods>
+            </class>
+            <class name="test.basic.profile.UserProfileDefaultTests">
+                <methods>
+                    <include name="testClosetVerificationInformationCheck"/>
+                </methods>
+            </class>
+            <class name="test.basic.profile.UserProfileEditTests">
+                <methods>
+                    <include name="testChangingRealName"/>
+                    <include name="testChangeUserProfilePhoto"/>
+                </methods>
+            </class>
+            <class name="test.basic.profile.UserProfileNoResetTests">
+                <methods>
+                    <include name="testThatFeedbackCanBeSeenByOtherUsers"/>
+                    <include name="testFeedbackInProfile"/>
+                </methods>
+            </class>
+            <class name="test.basic.profile.UserProfileResetTests">
+                <methods>
+                    <include name="testMessageButtonButtonWorksInClosetTab"/>
+                    <include name="testFollowButtonButtonWorksInClosetTab"/>
+                </methods>
+            </class>
+            <class name="test.basic.upload.UploadFormTests">
+                <methods>
+                    <include name="testUploadPhotoFromCameraAndGallery"/>
+                    <include name="testUploadPhotoFromGallery"/>
+                    <include name="testNoPaymentCountriesDoNotHaveShippingOptions"/>
+                </methods>
+            </class>
+            <class name="test.basic.upload.UploadItemTests">
+                <methods>
+                    <include name="testItemUploadWithStandardShipping"/>
+                    <include name="testThatDraftConvertsToItem"/>
+                </methods>
+            </class>
+            <class name="test.basic.links.PaymentsIdentityLinkTest">
+                <methods>
+                    <include name="testPaymentsIdentityExternalLink"/>
+                </methods>
+            </class>
+            <class name="test.basic.notifications.EmailNotificationSettingsTests">
+                <methods>
+                    <include name="testThatEmailNotificationSettingsDoNotGoBackAfterChangingThem"/>
+                </methods>
+            </class>
+            <class name="test.basic.notifications.PushNotificationSettingsTests">
+                <methods>
+                    <include name="testPushNotificationSettingsDoNotGoBack"/>
+                </methods>
+            </class>
+            <class name="test.payments.TransactionsTests">
+                <methods>
+                    <include name="testBuyingAnItemWithPickUpShippingMethodInSandbox"/>
+                    <include name="testBuyingAnItemWithHomeDeliveryShippingMethodInSandbox"/>
+                    <include name="testBuyingAnItemWithCustomShippingMethodInSandbox"/>
+                    <include name="testBuyingAnItemWithNoShippingMethodInSandbox"/>
+                </methods>
+            </class>
+            <class name="test.payments.SellerSideTests">
+                <methods>
+                    <include name="testSellerSideAfterSellingAnItem"/>
+                    <include name="testTryToDeleteProfileWhileHavingIncompleteTransaction"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>

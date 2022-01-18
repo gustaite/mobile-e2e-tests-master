@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="KARMA" verbose="1" configfailurepolicy="continue" >
+    <method-selectors>
+        <method-selector>
+            <selector-class
+                    name="commonUtil.testng.mobile.MobileMethodSelector"/>
+        </method-selector>
+    </method-selectors>
+    <listeners>
+        <listener class-name="util.testng.TestNGSuiteAlterListener" />
+        <listener class-name="util.testng.InvokedMethodListener"/>
+        <listener class-name="commonUtil.testng.AnnotationTransformer"/>
+        <listener class-name="commonUtil.testng.MethodInterceptor"/>
+    </listeners>
+    <test name="Karma tests">
+        <classes>
+            <class name="test.basic.WebViewTests">
+                <methods>
+                    <include name="testIfPersonalisationHelpButtonOpensWebView"/>
+                    <include name="testIfHelpCenterOpensWebView"/>
+                    <include name="testIfRandomFaqLinkOpens"/>
+                    <include name="testIfVintedGuideOpensWebView"/>
+                </methods>
+            </class>
+            <class name="test.basic.item.ItemTests">
+                <methods>
+                    <include name="testThatItemSizeIsClickableAndSizeWebViewIsOpen"/>
+                </methods>
+            </class>
+            <class name="test.basic.navigation.NavigationFromProfileTests">
+                <methods>
+                    <include name="testNavigationFromProfileTabToAHelpCenter"/>
+                    <include name="testNavigationFromProfileTabToVintedGuide"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>

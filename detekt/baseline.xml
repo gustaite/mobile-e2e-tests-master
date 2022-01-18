@@ -1,0 +1,138 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>ComplexMethod:NavigationWorkflowRobot.kt$NavigationWorkflowRobot$fun openTabFromMyProfileTab(tab: String)</ID>
+    <ID>ComplexMethod:SkipTestController.kt$SkipTestController$@Step("Test '{testName}' checked for skip condition by device") fun skipParticularDeviceByTestName(testName: String): Throwable?</ID>
+    <ID>ComplexMethod:SkipTestController.kt$SkipTestController$@Step("Test '{testName}' checked for skip condition") private fun skipTestWhenConditionMetByTest(testName: String): Throwable?</ID>
+    <ID>EnumNaming:CatalogFilterButton.kt$CatalogFilterButton.Brand$Brand</ID>
+    <ID>EnumNaming:CatalogFilterButton.kt$CatalogFilterButton.Color$Color</ID>
+    <ID>EnumNaming:CatalogFilterButton.kt$CatalogFilterButton.Condition$Condition</ID>
+    <ID>EnumNaming:CatalogFilterButton.kt$CatalogFilterButton.Country$Country</ID>
+    <ID>EnumNaming:CatalogFilterButton.kt$CatalogFilterButton.Filter$Filter</ID>
+    <ID>EnumNaming:CatalogFilterButton.kt$CatalogFilterButton.Materials$Materials</ID>
+    <ID>EnumNaming:CatalogFilterButton.kt$CatalogFilterButton.Price$Price</ID>
+    <ID>EnumNaming:CatalogFilterButton.kt$CatalogFilterButton.Size$Size</ID>
+    <ID>EnumNaming:CatalogFilterButton.kt$CatalogFilterButton.Sort$Sort</ID>
+    <ID>EnumNaming:Devices.kt$LaboratoryDevice.A30s$A30s</ID>
+    <ID>EnumNaming:Devices.kt$LaboratoryDevice.A50s$A50s</ID>
+    <ID>EnumNaming:Devices.kt$LaboratoryDevice.M30s$M30s</ID>
+    <ID>EnumNaming:Devices.kt$LaboratoryDevice.M31s$M31s</ID>
+    <ID>EnumNaming:Devices.kt$LaboratoryDevice.S10e$S10e</ID>
+    <ID>EnumNaming:FollowingRobot.kt$FollowAction.Follow$Follow</ID>
+    <ID>EnumNaming:FollowingRobot.kt$FollowAction.Unfollow$Unfollow</ID>
+    <ID>EnumNaming:FollowingRobot.kt$FollowType.Followers$Followers</ID>
+    <ID>EnumNaming:FollowingRobot.kt$FollowType.Following$Following</ID>
+    <ID>EnumNaming:FollowingRobot.kt$FollowUser.Skorp32$Skorp32</ID>
+    <ID>EnumNaming:FollowingRobot.kt$FollowUser.VintedGintare$VintedGintare</ID>
+    <ID>EnumNaming:IosAppSync.kt$IosInfoKey.BuildDate$BuildDate</ID>
+    <ID>EnumNaming:IosAppSync.kt$IosInfoKey.CFBundleShortVersionString$CFBundleShortVersionString</ID>
+    <ID>EnumNaming:IosAppSync.kt$IosInfoKey.CFBundleVersion$CFBundleVersion</ID>
+    <ID>EnumNaming:PhotoTipModalRobot.kt$PhotoTipsVisibility.Invisible$Invisible</ID>
+    <ID>EnumNaming:PhotoTipModalRobot.kt$PhotoTipsVisibility.Visible$Visible</ID>
+    <ID>EnumNaming:UserInfoVerificationSection.kt$UserProfileVerificationInfoTabs.About$About</ID>
+    <ID>EnumNaming:UserInfoVerificationSection.kt$UserProfileVerificationInfoTabs.Closet$Closet</ID>
+    <ID>EnumNaming:VintedElement.kt$MobileSelector.IosAccessibilityId$IosAccessibilityId</ID>
+    <ID>EnumNaming:VintedElement.kt$MobileSelector.IosPredicateString$IosPredicateString</ID>
+    <ID>EnumNaming:Visibility.kt$Visibility.Invisible$Invisible</ID>
+    <ID>EnumNaming:Visibility.kt$Visibility.Visible$Visible</ID>
+    <ID>EnumNaming:Wait.kt$WaitFor.Click$Click</ID>
+    <ID>EnumNaming:Wait.kt$WaitFor.Visible$Visible</ID>
+    <ID>FunctionParameterNaming:CmpVendorsRobot.kt$CmpVendorsRobot$ToggleElement: VintedElement</ID>
+    <ID>LargeClass:CatalogRobot.kt$CatalogRobot : BaseRobot</ID>
+    <ID>LargeClass:CheckoutRobot.kt$CheckoutRobot : BaseRobot</ID>
+    <ID>LargeClass:ConversationElementTexts.kt$ConversationElementTexts</ID>
+    <ID>LargeClass:ConversationRobot.kt$ConversationRobot : BaseRobot</ID>
+    <ID>LargeClass:ElementByLanguage.kt$ElementByLanguage$Companion</ID>
+    <ID>LargeClass:FeedRobot.kt$FeedRobot : BaseRobot</ID>
+    <ID>LargeClass:ItemRobot.kt$ItemRobot : BaseRobot</ID>
+    <ID>LargeClass:SearchTests.kt$SearchTests : BaseTest</ID>
+    <ID>LargeClass:SkipTestController.kt$SkipTestController</ID>
+    <ID>LargeClass:UploadItemRobot.kt$UploadItemRobot : BaseRobot</ID>
+    <ID>LargeClass:VintedElement.kt$VintedElement</ID>
+    <ID>LargeClass:WorkflowRobot.kt$WorkflowRobot : BaseRobot</ID>
+    <ID>LongMethod:AllureReport.kt$AllureReport.Companion$fun addTestParameters(method: IInvokedMethod, testResult: ITestResult)</ID>
+    <ID>LongMethod:BundleTransactionTests.kt$BundleTransactionTests$@Test(description = "Check bundles (go through the transaction)") @TmsLink("100") fun testCheckBundlesGoThroughTransaction()</ID>
+    <ID>LongMethod:BuyerProtectionProRobot.kt$BuyerProtectionProRobot$@Step("Android only: Check buyer protection pro screen elements are visible") fun checkBuyerProtectionProElements(): BuyerProtectionProRobot</ID>
+    <ID>LongMethod:BuyerSideOfferFlowTests.kt$BuyerSideOfferFlowTests$@Test(description = "Test offer flow views from buyer side buyer sends offer") fun testOfferFlowViewsFromBuyerSideBuyerSendsOffer()</ID>
+    <ID>LongMethod:ConversationTests.kt$ConversationTests$@LoginToMainThreadUser @RunMobile(country = WITH_SUSPICIOUS_PHOTO_CLASSIFICATION, message = "Suspicious photo hiding is not enabled in INT") @Test(description = "Test suspicious photo in the conversation") @TmsLink("24439") fun testSuspiciousPhotoInConversation()</ID>
+    <ID>LongMethod:NavigationWorkflowRobot.kt$NavigationWorkflowRobot$fun openTabFromMyProfileTab(tab: String)</ID>
+    <ID>LongMethod:PaymentAccountDetailsRobot.kt$PaymentAccountDetailsRobot$@Step( "Assert billing address is {billingAddress.fullName}, {billingAddress.address1} {billingAddress.address2}, " + "{billingAddress.postalCode} {billingAddress.city} " ) fun assertBillingAddress(billingAddress: VintedBillingAddress): PaymentAccountDetailsRobot</ID>
+    <ID>LongMethod:ScreenRecording.kt$ScreenRecording$fun stopRecording(saveRecording: Boolean): ByteArray?</ID>
+    <ID>LongMethod:SearchTests.kt$SearchTests$@Test(description = "Test if recent search is updated after editing filters") @TmsLinks(TmsLink("139"), TmsLink("153")) fun testIfRecentSearchIsUpdatedAfterEditingFilters()</ID>
+    <ID>LongMethod:SearchTests.kt$SearchTests$@Test(description = "Test if subscribed search with filters stays the same and new search is created after editing filters") @TmsLinks(TmsLink("166"), TmsLink("177")) fun testEditingSubscribedSearchWithBrandFilter()</ID>
+    <ID>LongMethod:SearchTests.kt$SearchTests$@Test(description = "Test if subscribed search with keyword is not updated after adding some filters") @TmsLink("5267") fun testIfSubscribedSearchWithKeywordIsNotChangedAfterAddingFilters()</ID>
+    <ID>LongMethod:ShipmentWorkflowRobot.kt$ShipmentWorkflowRobot$fun buyerAddRemoveBundleItems( buyerAddress: VintedShippingAddress, sellerAddress: VintedShippingAddress, isBuyVisible: Boolean, itemType: ItemRequestBuilder.VintedType = ItemRequestBuilder.VintedType.SIMPLE_ITEM_WITH_NO_SHIPPING )</ID>
+    <ID>LongMethod:ShipmentWorkflowRobot.kt$ShipmentWorkflowRobot$fun buyerFromOneCountrySellerFromAnother( buyerAddress: VintedShippingAddress, sellerAddress: VintedShippingAddress, isBuyVisible: Boolean, shippingCarriers: VintedShippingRoutesCarriers, itemType: ItemRequestBuilder.VintedType = ItemRequestBuilder.VintedType.SIMPLE_ITEM, bundleVisibility: Visibility = Visibility.Invisible, deliveryType: VintedShipmentDeliveryType = VintedShipmentDeliveryType.HOME )</ID>
+    <ID>LongMethod:SkipTestController.kt$SkipTestController$@Step("Test '{testName}' checked for skip condition by device") fun skipParticularDeviceByTestName(testName: String): Throwable?</ID>
+    <ID>LongMethod:SkipTestController.kt$SkipTestController$@Step("Test '{testName}' checked for skip condition") private fun skipTestWhenConditionMetByTest(testName: String): Throwable?</ID>
+    <ID>LongMethod:UploadItemRobot.kt$UploadItemRobot$@Step("Enter description with hashtag") fun enterAndAssertDescriptionWithHashtag(): UploadItemRobot</ID>
+    <ID>LongMethod:UserCleanupHelper.kt$UserCleanupHelper$fun getLoggedInUserCleanupTasks(): List&lt;() -&gt; Unit&gt;</ID>
+    <ID>LongMethod:VintedElement.kt$VintedElement.Companion$@Step("Wait for element to be visible for {waitSec}") fun isListVisible(vintedElements: () -&gt; List&lt;VintedElement&gt;, waitSec: Long = 5): Boolean</ID>
+    <ID>LongParameterList:Session.kt$Session$(val platformVersion: String, val deviceManufacturer: String, val deviceModel: String, val deviceUdid: String, val node: String, val nodePort: String, val id: String, val iosAppFileDate: String?)</ID>
+    <ID>LongParameterList:ShipmentWorkflowRobot.kt$ShipmentWorkflowRobot$( buyerAddress: VintedShippingAddress, sellerAddress: VintedShippingAddress, isBuyVisible: Boolean, shippingCarriers: VintedShippingRoutesCarriers, itemType: ItemRequestBuilder.VintedType = ItemRequestBuilder.VintedType.SIMPLE_ITEM, bundleVisibility: Visibility = Visibility.Invisible, deliveryType: VintedShipmentDeliveryType = VintedShipmentDeliveryType.HOME )</ID>
+    <ID>NestedBlockDepth:ResponsibleTeam.kt$ResponsibleTeam$fun getTeam(test: ITestNGMethod): Team</ID>
+    <ID>NestedBlockDepth:WebDriverFactory.kt$WebDriverFactory$@Step("Get or set the driver") fun getOrSetDriver(method: Method? = null)</ID>
+    <ID>TooGenericExceptionThrown:Android.kt$Android.Companion$throw Exception("Element was expected to be visible, but was not visible")</ID>
+    <ID>TooManyFunctions:AbTestController.kt$AbTestController$AbTestController</ID>
+    <ID>TooManyFunctions:Android.kt$Android$Companion</ID>
+    <ID>TooManyFunctions:AppTestAndroid.kt$AppTestAndroid</ID>
+    <ID>TooManyFunctions:BaseTest.kt$BaseTest</ID>
+    <ID>TooManyFunctions:BeBuyerTests.kt$BeBuyerTests : BaseTest</ID>
+    <ID>TooManyFunctions:BillingAddressRobot.kt$BillingAddressRobot : BaseRobot</ID>
+    <ID>TooManyFunctions:BumpWorkflowRobot.kt$BumpWorkflowRobot : BaseRobot</ID>
+    <ID>TooManyFunctions:BumpsPreCheckoutRobot.kt$BumpsPreCheckoutRobot : BaseRobot</ID>
+    <ID>TooManyFunctions:CatalogRobot.kt$CatalogRobot : BaseRobot</ID>
+    <ID>TooManyFunctions:CategoriesAndSizesRobot.kt$CategoriesAndSizesRobot : BaseRobot</ID>
+    <ID>TooManyFunctions:CheckoutRobot.kt$CheckoutRobot : BaseRobot</ID>
+    <ID>TooManyFunctions:CheckoutWorkflowRobot.kt$CheckoutWorkflowRobot : BaseRobot</ID>
+    <ID>TooManyFunctions:CmpCookiesSettingsRobot.kt$CmpCookiesSettingsRobot : BaseRobot</ID>
+    <ID>TooManyFunctions:ConversationRobot.kt$ConversationRobot : BaseRobot</ID>
+    <ID>TooManyFunctions:ConversationTests.kt$ConversationTests : BaseTest</ID>
+    <ID>TooManyFunctions:DataSettingsWorkflowRobot.kt$DataSettingsWorkflowRobot : BaseRobot</ID>
+    <ID>TooManyFunctions:DeBuyerTests.kt$DeBuyerTests : BaseTest</ID>
+    <ID>TooManyFunctions:DeepLink.kt$DeepLink : BaseRobot</ID>
+    <ID>TooManyFunctions:DropOffPointSelectionRobot.kt$DropOffPointSelectionRobot : BaseRobot</ID>
+    <ID>TooManyFunctions:EsBuyerTests.kt$EsBuyerTests : BaseTest</ID>
+    <ID>TooManyFunctions:FeedRobot.kt$FeedRobot : BaseRobot</ID>
+    <ID>TooManyFunctions:FiltersRobot.kt$FiltersRobot : BaseRobot</ID>
+    <ID>TooManyFunctions:FrBuyerTests.kt$FrBuyerTests : BaseTest</ID>
+    <ID>TooManyFunctions:IOS.kt$IOS$Companion</ID>
+    <ID>TooManyFunctions:ItBuyerTests.kt$ItBuyerTests : BaseTest</ID>
+    <ID>TooManyFunctions:ItemActionsTests.kt$ItemActionsTests : BaseTest</ID>
+    <ID>TooManyFunctions:ItemRobot.kt$ItemRobot : BaseRobot</ID>
+    <ID>TooManyFunctions:ItemTests.kt$ItemTests : BaseTest</ID>
+    <ID>TooManyFunctions:LocalisationVisibleLanguageTests.kt$LocalisationVisibleLanguageTests : BaseTest</ID>
+    <ID>TooManyFunctions:LuBuyerTests.kt$LuBuyerTests : BaseTest</ID>
+    <ID>TooManyFunctions:NavigationFromProfileTests.kt$NavigationFromProfileTests : BaseTest</ID>
+    <ID>TooManyFunctions:NlBuyerTests.kt$NlBuyerTests : BaseTest</ID>
+    <ID>TooManyFunctions:PaymentAccountDetailsRobot.kt$PaymentAccountDetailsRobot : BaseRobot</ID>
+    <ID>TooManyFunctions:PersonalizationResetTests.kt$PersonalizationResetTests : BaseTest</ID>
+    <ID>TooManyFunctions:PersonalizationWorkflowRobot.kt$PersonalizationWorkflowRobot : BaseRobot</ID>
+    <ID>TooManyFunctions:ProfileAboutTabRobot.kt$ProfileAboutTabRobot : BaseRobot</ID>
+    <ID>TooManyFunctions:ProfileTabRobot.kt$ProfileTabRobot : BaseRobot</ID>
+    <ID>TooManyFunctions:PtBuyerTests.kt$PtBuyerTests : BaseTest</ID>
+    <ID>TooManyFunctions:ReliabilitySuiteTest.kt$ReliabilitySuiteTest</ID>
+    <ID>TooManyFunctions:SettingsRobot.kt$SettingsRobot : BaseRobot</ID>
+    <ID>TooManyFunctions:ShippingOptionRobot.kt$ShippingOptionRobot : BaseRobot</ID>
+    <ID>TooManyFunctions:SkipAuthenticationTests.kt$SkipAuthenticationTests : BaseTest</ID>
+    <ID>TooManyFunctions:UploadFormWorkflowRobot.kt$UploadFormWorkflowRobot : BaseRobot</ID>
+    <ID>TooManyFunctions:UploadItemRobot.kt$UploadItemRobot : BaseRobot</ID>
+    <ID>TooManyFunctions:UploadItemTests.kt$UploadItemTests : BaseTest</ID>
+    <ID>TooManyFunctions:UserProfileClosetRobot.kt$UserProfileClosetRobot : BaseRobot</ID>
+    <ID>TooManyFunctions:UserProfileRobot.kt$UserProfileRobot : BaseRobot</ID>
+    <ID>TooManyFunctions:VintedBy.kt$VintedBy$Companion</ID>
+    <ID>TooManyFunctions:VintedDriver.kt$VintedDriver$Companion</ID>
+    <ID>TooManyFunctions:VintedElement.kt$VintedElement</ID>
+    <ID>TooManyFunctions:WorkflowRobot.kt$WorkflowRobot : BaseRobot</ID>
+    <ID>UnusedPrivateMember:DropOffPointSelectionRobot.kt$DropOffPointSelectionRobot$private val dropOffPointAbTestOnCellsElementList: List&lt;VintedElement&gt; get() = VintedDriver.findElementList( VintedBy.id("shipping_selection_cell"), VintedBy.iOSClassChain("**/XCUIElementTypeCell/XCUIElementTypeOther/*/XCUIElementTypeOther") )</ID>
+    <ID>UnusedPrivateMember:DropOffPointSelectionRobot.kt$DropOffPointSelectionRobot$private val parcelShopInfoElement: VintedElement get() = VintedDriver.elementByIdAndTranslationKey( "drop_off_point_information_basic_info_cell", "parcel_shop_selection_information_get_direction_title" )</ID>
+    <ID>UnusedPrivateMember:EditablePoliciesSettingsRobot.kt$EditablePoliciesSettingsRobot$private val additionalInformationInputTab: VintedElement get() = VintedDriver.findElement(androidBy = VintedBy.id("additionalInformation"))</ID>
+    <ID>UnusedPrivateMember:EditablePoliciesSettingsRobot.kt$EditablePoliciesSettingsRobot$private val returnPolicyInputTab: VintedElement get() = VintedDriver.findElement(androidBy = VintedBy.id("returnPolicy"))</ID>
+    <ID>UnusedPrivateMember:EditablePoliciesSettingsRobot.kt$EditablePoliciesSettingsRobot$private val termsAndConditionsInputTab: VintedElement get() = VintedDriver.findElement(androidBy = VintedBy.id("termsAndConditions"))</ID>
+    <ID>UnusedPrivateMember:LabelDeliveryRobot.kt$LabelDeliveryRobot$private val itemMakeOfferButton: VintedElement get() = VintedDriver.findElement( VintedBy.androidIdAndText( "message_header_action_secondary", Android.getElementValue("transaction_btn_make_offer") ), iosElement = { IOS.findAllElement( iosBy1 = VintedBy.iOSNsPredicateString("name == 'message_action_request_offer'"), iosBy2 = VintedBy.iOSNsPredicateString("name == 'message_action_offer'") ) } )</ID>
+    <ID>UnusedPrivateMember:SecurityWebViewRobot.kt$SecurityWebViewRobot$private val creditCardSecurityPasswordTabElement: VintedElement get() = VintedDriver.findElement( androidBy = VintedBy.androidUIAutomator("UiSelector().resourceId(\"code\")"), iOSBy = VintedBy.className("XCUIElementTypeSecureTextField") )</ID>
+    <ID>UnusedPrivateMember:SecurityWebViewRobot.kt$SecurityWebViewRobot$private val submitCreditCardPasswordButton: VintedElement get() = VintedDriver.findElement( androidBy = VintedBy.className("android.widget.Button"), iOSBy = VintedBy.accessibilityId("Submit") )</ID>
+    <ID>VarCouldBeVal:StateMachineBuilder.kt$StateMachineBuilder.&lt;no name provided&gt;$override var stateOffMethod: () -&gt; Unit = {}</ID>
+  </CurrentIssues>
+</SmellBaseline>

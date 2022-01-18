@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="IMAGE RECOGNITION" verbose="1" configfailurepolicy="continue" >
+    <method-selectors>
+        <method-selector>
+            <selector-class
+                    name="commonUtil.testng.mobile.MobileMethodSelector"/>
+        </method-selector>
+    </method-selectors>
+    <listeners>
+        <listener class-name="util.testng.TestNGSuiteAlterListener" />
+        <listener class-name="util.testng.InvokedMethodListener"/>
+        <listener class-name="commonUtil.testng.AnnotationTransformer"/>
+        <listener class-name="commonUtil.testng.MethodInterceptor"/>
+    </listeners>
+    <test name="Image recognition tests">
+        <classes>
+            <class name="test.basic.upload.UploadFormTests">
+                <methods>
+                    <include name="testRearrangePicturesInCameraView"/>
+                    <include name="testUploadPhotoFromCameraAndGallery"/>
+                    <include name="testThatCategoriesAreSuggested"/>
+                </methods>
+            </class>
+            <class name="test.basic.upload.UploadItemTests">
+                <methods>
+                    <include name="testCreateItemWithRotatedPhoto"/>
+                    <include name="testRearrangePicturesInUploadViewWhenUploading"/>
+                    <include name="testRearrangePicturesInUploadViewWhenEditingDraft"/>
+                    <include name="testRearrangePicturesInUploadViewWhenEditingItem"/>
+                </methods>
+            </class>
+            <class name="test.basic.FeedTests">
+                <methods>
+                    <include name="testItemFavoritingAndUnfavoritingFromFeed"/>
+                </methods>
+            </class>
+            <class name="test.basic.SkipAuthenticationTests">
+                <methods>
+                    <include name="testSkipAuthenticationForFavoriteItem"/>
+                    <include name="testSkipAuthenticationForBuyNow"/>
+                </methods>
+            </class>
+            <class name="test.basic.profile.UserProfileEditTests">
+                <methods>
+                    <include name="testChangeUserProfilePhoto"/>
+                </methods>
+            </class>
+            <class name="test.basic.profile.UserProfileDefaultTests">
+                <methods>
+                    <include name="testClosetVerificationInformationCheck"/>
+                    <include name="testAboutVerificationInformationCheck"/>
+                </methods>
+            </class>
+            <class name="test.basic.inbox.ConversationTests">
+                <methods>
+                    <include name="testSuspiciousPhotoInConversation"/>
+                </methods>
+            </class>
+            <class name="test.basic.item.ItemTests">
+                <methods>
+                    <include name="testFullImageCanBeOpenAndUserCanSwipeToOtherOne"/>
+                    <include name="testBuyButtonLeadsToCorrectCheckout"/>
+                    <include name="testItemFavoring"/>
+                    <include name="testSwipeRightWorksInItemScreen"/>
+                </methods>
+            </class>
+            <class name="test.payments.transactions.tracked.BuyerSideShippingTests">
+                <methods>
+                    <include name="testCheckTrackingHistoryWithTrackedShippingBuyerSideViews"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>
+

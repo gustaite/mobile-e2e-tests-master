@@ -1,0 +1,58 @@
+properties([pipelineTriggers([[$class                   : 'GenericTrigger',
+                               token                    : 'mobile-e2e-tests',
+                               genericVariables         : [[key: 'refBranch', value: '$.ref', expressionType: 'JSONPath']],
+                               regexpFilterText         : '$refBranch',
+                               regexpFilterExpression   : 'refs/heads/master'
+                              ]])])
+@Library('auto-shared-lib') _
+pipeline {
+    agent {
+        node {
+            label "master"
+        }
+    }
+
+    options {
+        disableConcurrentBuilds()
+        buildDiscarder(logRotator(numToKeepStr: '120', artifactNumToKeepStr: '60'))
+        timeout(time: 15, unit: 'MINUTES')
+    }
+
+    environment {
+        NEW_JENKINS = 'true'
+        NEXUS_CLI_USER_PASSWORD = credentials('NEXUS_CLI_USER_PASSWORD')
+        DEFAULT_USER_PASSWORD_PLAIN = credentials('DEFAULT_USER_PASSWORD_PLAIN')
+        DEFAULT_USER_PASSWORD_ENCODED = credentials('DEFAULT_USER_PASSWORD_ENCODED')
+        AFTERSHIP_API_KEY = credentials('AFTERSHIP_API_KEY')
+    }
+
+    stages {
+
+        stage('Clean workspace') {
+            steps {
+                cleanWs()
+            }
+        }
+
+        stage('Checkout') {
+            steps {
+                git(branch: 'master', credentialsId: 'vinted-ios', url: 'git@github.com:vinted/mobile-e2e-tests.git')
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sh "./gradlew --no-daemon build testClasses -x test -Dtest.platform=Ios -Dtest.portal=INT"
+            }
+        }
+    }
+
+    post {
+        failure {
+            script {
+                slack.message('automation-status', "Code building for MOBILE-E2E-TESTS 'master' branch failed")
+            }
+        }
+    }
+}
+
